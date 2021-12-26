@@ -7,13 +7,14 @@ resource "vsphere_distributed_virtual_switch" "dvs" {
   max_mtu         = lookup(var.distribution_switch, "mtu", 9000)
   version         = var.distribution_switch.version
 
-  dynamic "host" {
-    for_each = var.hosts
-    content {
-      host_system_id = host.key
-      devices        = host.value
-    }
-  }
+  ### technically this section should work but it has only caused me issues and this has to be done manually
+  #dynamic "host" {
+  #  for_each = var.hosts
+  #  content {
+  #    host_system_id = host.key
+  #    devices        = host.value
+  #  }
+  #}
   lifecycle { ignore_changes = [host] } # ensures hosts are not forced into DVS if undesired
 }
 
